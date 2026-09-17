@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cashtag Money — launch a coin, fees land on a $cashtag</title>
+<meta name="description" content="Launch a coin on Robinhood Chain and route its creator fees to any $cashtag or @venmo handle. Public trading, plain-dollar payouts, no wallet needed on the receiving end.">
+<meta property="og:title" content="Cashtag Money — launch a coin, fees land on a $cashtag">
+<meta property="og:description" content="Route creator fees from any coin on Robinhood Chain to a $cashtag. 80% to the handle, 20% buys and burns $CTAG.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0e0c; --ink2:#3c423e; --mute:#7a827c; --line:#e3e7e3; --wash:#f3f5f2; --bg:#ffffff;
+  --cash:#00d54b; --cash2:#00b63f; --cashink:#063d1a; --cashwash:#e6fbec; --warn:#ff7a1a;
+  --d:'Bricolage Grotesque',system-ui,sans-serif; --t:'DM Sans',system-ui,sans-serif; --m:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box} html{overflow-x:clip;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--t);font-size:16px;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none} img{max-width:100%;display:block} button{font:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--d);margin:0;letter-spacing:-.02em;line-height:1.02}
+.mono{font-family:var(--m)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.k{font-family:var(--m);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.k b{color:var(--cash2);font-weight:600}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:18px;height:66px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--d);font-weight:800;font-size:19px;letter-spacing:-.03em}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--cash);display:grid;place-items:center;font-style:normal;color:var(--ink);font-weight:800;font-size:19px}
+.nav nav{display:flex;gap:4px;margin-left:8px}
+.nav nav a{padding:7px 10px;border-radius:8px;font-size:13.5px;color:var(--ink2);font-weight:500}
+.nav nav a:hover,.nav nav a.on{background:var(--wash);color:var(--ink)}
+.nav nav a span{font-family:var(--m);font-size:10.5px;color:var(--mute);margin-right:6px}
+.right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;font-size:14px;line-height:1;transition:transform .12s,box-shadow .12s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.btn.cash{background:var(--cash);border-color:var(--cash);color:var(--ink)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn.soon{background:var(--wash);border-color:var(--line);color:var(--mute);cursor:not-allowed;box-shadow:none;transform:none}
+.btn.soon:hover{transform:none;box-shadow:none}
+.btn.sm{padding:8px 12px;font-size:13px}
+.snd{white-space:nowrap;font-family:var(--m);font-size:11px;letter-spacing:.12em;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink2)}
+.snd.on{border-color:var(--cash2);color:var(--cashink);background:var(--cashwash)}
+
+/* ticker */
+.tick{border-bottom:1px solid var(--line);background:var(--ink);color:#d7dbd8;overflow:hidden;height:34px;display:flex;align-items:center}
+.tick .in{display:flex;gap:44px;white-space:nowrap;animation:mq 46s linear infinite;font-family:var(--m);font-size:11.5px;letter-spacing:.06em}
+.tick .in span b{color:var(--cash);font-weight:600}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* hero */
+.hero{padding:74px 0 60px;position:relative}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
+h1{font-size:clamp(40px,5.1vw,70px);font-weight:800}
+h1 em{font-style:normal;color:var(--cash2);position:relative}
+.lead{font-size:19px;color:var(--ink2);max-width:560px;margin:22px 0 28px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.chip{font-family:var(--m);font-size:11.5px;letter-spacing:.06em;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink2)}
+.chip b{color:var(--ink);font-weight:600}
+#caBox{cursor:pointer} #caBox:hover{border-color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px;padding-top:24px;border-top:1px solid var(--line)}
+.facts h3{font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+.facts p{margin:0;font-size:14px;color:var(--ink2)}
+
+/* phone */
+.stage{position:relative;display:grid;place-items:center;min-height:560px}
+.stage:before{content:"";position:absolute;inset:8% 6%;border-radius:40px;background:radial-gradient(60% 60% at 50% 40%,var(--cashwash),transparent 70%);z-index:0}
+.phone{position:relative;z-index:1;width:min(360px,100%);aspect-ratio:393/820;border-radius:44px;background:var(--ink);padding:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.25)}
+.scr{position:relative;width:100%;height:100%;border-radius:34px;background:#0e1310;color:#fff;overflow:hidden;display:flex;flex-direction:column;font-size:14px}
+.scr .top{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 8px;font-family:var(--m);font-size:11px;letter-spacing:.1em;color:#8b948e}
+.bal{padding:8px 20px 6px}
+.bal small{display:block;font-family:var(--m);font-size:10.5px;letter-spacing:.14em;color:#8b948e;text-transform:uppercase}
+.bal b{display:block;font-family:var(--d);font-weight:800;font-size:44px;letter-spacing:-.03em;line-height:1.05;margin-top:4px}
+.bal b i{font-style:normal;color:var(--cash)}
+.bal .sub{font-family:var(--m);font-size:11px;color:#8b948e;margin-top:4px}
+.feed{flex:1;overflow:hidden;padding:6px 12px 0;display:flex;flex-direction:column;gap:6px;position:relative}
+.feed:after{content:"";position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(transparent,#0e1310);pointer-events:none}
+.row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:14px;background:#161d18;animation:pop .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.97)}}
+.row .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--d);font-weight:800;font-size:14px;color:var(--ink);flex:none}
+.row .tx{flex:1;min-width:0} .row .tx b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .tx span{font-family:var(--m);font-size:10.5px;color:#8b948e}
+.row .amt{font-family:var(--m);font-size:13px;font-weight:600;color:var(--cash);white-space:nowrap}
+.pay{padding:12px 16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pay button{border:0;border-radius:999px;padding:14px;font-weight:700;font-size:14px;font-family:var(--t)}
+.pay .req{background:#232b26;color:#fff} .pay .send{background:var(--cash);color:var(--ink);position:relative}
+.pay .send:active{transform:scale(.98)}
+.hint{position:absolute;right:-14px;top:110px;z-index:3;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.12);max-width:190px;line-height:1.35}
+.hint b{color:var(--cash2)} .hint:after{content:"";position:absolute;left:-7px;top:16px;width:12px;height:12px;background:#fff;border-left:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.bills{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:5}
+.bill{position:absolute;width:30px;height:16px;border-radius:3px;background:var(--cash);border:1px solid var(--cash2);color:var(--cashink);font-family:var(--m);font-size:9px;display:grid;place-items:center;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+
+/* sections */
+section{padding:80px 0;border-top:1px solid var(--line);position:relative}
+.sh{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:end;margin-bottom:40px}
+h2{font-size:clamp(30px,4vw,50px);font-weight:800}
+.sh p{margin:0;color:var(--ink2);font-size:17px;max-width:560px}
+.num{position:absolute;right:24px;top:40px;font-family:var(--d);font-weight:800;font-size:clamp(90px,14vw,190px);letter-spacing:-.06em;color:var(--wash);line-height:1;z-index:0;pointer-events:none;user-select:none}
+section>.wrap{position:relative;z-index:1}
+
+/* simulator */
+.sim{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:24px}
+.panel{border:1px solid var(--line);border-radius:22px;background:#fff;padding:24px}
+.panel.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.f{margin-bottom:18px} .f label{display:block;font-family:var(--m);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;padding:0 14px;height:52px;background:var(--wash);transition:border-color .15s}
+.inp:focus-within{border-color:var(--cash2);background:#fff}
+.inp span{font-family:var(--d);font-weight:800;font-size:22px;color:var(--cash2);margin-right:4px}
+.inp input{border:0;background:transparent;outline:0;font:600 18px/1 var(--t);flex:1;min-width:0;color:var(--ink);letter-spacing:-.01em}
+.inp input::placeholder{color:#b3bab5;font-weight:500}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:500;color:var(--ink2)}
+.seg button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rng{width:100%;accent-color:var(--cash2);margin:6px 0 0}
+.rv{display:flex;justify-content:space-between;font-family:var(--m);font-size:12px;color:var(--ink2)} .rv b{color:var(--ink);font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{border-radius:18px;background:#fff;border:1px solid var(--line);padding:16px 18px}
+.card small{display:block;font-family:var(--m);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.card b{display:block;font-family:var(--d);font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.card b i{font-style:normal;font-size:16px;color:var(--mute);font-weight:600;margin-left:4px}
+.card p{margin:8px 0 0;font-size:13px;color:var(--ink2);line-height:1.4}
+.card.cash{background:var(--cash);border-color:var(--cash);color:var(--ink)} .card.cash small,.card.cash p{color:var(--cashink)} .card.cash b i{color:var(--cashink)}
+.route{margin-top:14px;border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--wash)}
+.route .k{margin-bottom:12px}
+.hops{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:relative}
+.hop{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 12px 10px;min-width:0;position:relative}
+.hop small{display:block;font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.hop b{display:block;font-size:14px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hop span{display:block;font-family:var(--m);font-size:11px;color:var(--cash2);margin-top:5px}
+.hop.lit{border-color:var(--cash2);box-shadow:0 0 0 3px var(--cashwash)}
+.dot{position:absolute;top:-6px;left:0;width:10px;height:10px;border-radius:50%;background:var(--cash);box-shadow:0 0 0 4px rgba(0,213,75,.25);transition:left .55s cubic-bezier(.4,0,.2,1)}
+.lcard{border-radius:22px;background:linear-gradient(160deg,#16201a,#0b0e0c);color:#fff;padding:24px;position:relative;overflow:hidden;min-height:250px;display:flex;flex-direction:column}
+.lcard:before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,213,75,.35),transparent 70%)}
+.lcard .k{color:#8b948e} .lcard .tk{font-family:var(--d);font-weight:800;font-size:38px;letter-spacing:-.03em;margin:6px 0 2px}
+.lcard .to{font-family:var(--m);font-size:13px;color:var(--cash)}
+.lcard .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:end;gap:12px;font-family:var(--m);font-size:11px;color:#8b948e;padding-top:18px}
+.lcard .foot b{display:block;color:#fff;font-size:13px;font-weight:600}
+.qr{width:64px;height:64px;display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:#fff;padding:4px;border-radius:6px}
+.qr i{background:#fff} .qr i.b{background:var(--ink)}
+.status{margin-top:14px;font-family:var(--m);font-size:12px;color:var(--ink2);min-height:20px}
+.status b{color:var(--cash2);font-weight:600}
+.notif{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.nf{display:flex;gap:12px;align-items:center;background:var(--wash);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.nf i{width:38px;height:38px;border-radius:11px;background:var(--cash);display:grid;place-items:center;font-style:normal;font-family:var(--d);font-weight:800;font-size:20px;flex:none}
+.nf b{display:block;font-size:12px;color:var(--mute);font-weight:500;font-family:var(--m)} .nf span{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.notif p{margin:12px 0 0;font-size:13.5px;color:var(--ink2)}
+.warnb{margin-top:10px;border-left:3px solid var(--warn);padding:8px 12px;background:#fff6ee;border-radius:0 10px 10px 0;font-size:13px;color:#7a3d0e}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.step{border:1px solid var(--line);border-radius:20px;padding:22px;background:#fff;min-width:0}
+.step .n{font-family:var(--m);font-size:11px;color:var(--cash2);letter-spacing:.14em}
+.step h3{font-size:20px;margin:12px 0 8px;font-weight:700}
+.step p{margin:0;font-size:14px;color:var(--ink2)}
+.split{margin-top:24px;border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;background:var(--wash)}
+.bar{height:22px;border-radius:999px;overflow:hidden;display:flex;border:1px solid var(--line);background:#fff}
+.bar i{display:block;height:100%} .bar .a{width:80%;background:var(--cash)} .bar .b{width:20%;background:var(--ink)}
+.legend{display:flex;gap:18px;margin-top:10px;font-family:var(--m);font-size:12px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.claim{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--ink2)}
+.claim b{color:var(--ink)} .claim code{font-family:var(--m);background:var(--wash);padding:2px 7px;border-radius:6px;color:var(--cashink);font-size:12.5px}
+
+/* boards */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.board{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff}
+.board .hd{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.board .hd h3{font-size:18px;font-weight:700} .board .hd .k b{color:var(--cash2)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-family:var(--m);font-weight:500;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);text-align:left;padding:10px 20px;border-bottom:1px solid var(--line)}
+td{padding:12px 20px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr{cursor:pointer} tbody tr:hover td{background:var(--wash)}
+td.r,th.r{text-align:right;font-family:var(--m);font-size:13px}
+.h{display:flex;align-items:center;gap:10px;font-weight:600}
+.h i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--d);font-weight:800;font-size:12px;color:var(--ink);flex:none}
+.h small{display:block;font-family:var(--m);font-size:10.5px;color:var(--mute);font-weight:400}
+.pill{font-family:var(--m);font-size:10.5px;padding:3px 8px;border-radius:999px;background:var(--cashwash);color:var(--cashink);letter-spacing:.06em}
+.pill.g{background:#eef0ee;color:var(--ink2)}
+.tot{font-family:var(--m);font-size:12px;color:var(--ink2);padding:12px 20px;border-top:1px solid var(--line);background:var(--wash)} .tot b{color:var(--ink)}
+
+/* token */
+.tok{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.burn{border-radius:22px;background:var(--ink);color:#fff;padding:26px;position:relative;overflow:hidden}
+.burn .k{color:#8b948e}
+.burn .big{font-family:var(--d);font-weight:800;font-size:clamp(44px,5vw,64px);letter-spacing:-.04em;line-height:1;margin:10px 0 4px;color:var(--cash)}
+.burn .sub{font-family:var(--m);font-size:12px;color:#8b948e}
+.burn ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+.burn li{display:flex;gap:12px;font-size:14.5px;color:#d7dbd8;padding:12px 0;border-top:1px solid #222b25} .burn li b{color:#fff;flex:none;width:130px;font-weight:600}
+.params{border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.params .rowp{display:grid;grid-template-columns:1fr 1fr;padding:14px 20px;border-bottom:1px solid var(--line);font-size:14px;gap:14px}
+.params .rowp:last-child{border:0} .params .rowp span:first-child{color:var(--mute)} .params .rowp span:last-child{font-family:var(--m);font-size:13px;text-align:right}
+.params .rowp span:last-child b{color:var(--cash2);font-weight:600}
+
+/* rollout */
+.roll{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ph{border:1px solid var(--line);border-radius:20px;padding:22px;background:#fff}
+.ph .k{margin-bottom:12px} .ph.now{background:var(--cashwash);border-color:#bdf0cd} .ph.now .k b{color:var(--cash2)}
+.ph ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink2);display:grid;gap:8px}
+
+/* final + footer */
+.final{background:var(--ink);color:#fff;padding:90px 0;text-align:center}
+.final h2{color:#fff;font-size:clamp(34px,5vw,64px)} .final h2 em{font-style:normal;color:var(--cash)}
+.final p{color:#aab1ad;font-size:17px;max-width:560px;margin:18px auto 30px}
+footer{padding:28px 0 40px;border-top:1px solid #222b25;background:var(--ink);color:#8b948e;font-family:var(--m);font-size:11px;letter-spacing:.04em;line-height:1.7}
+footer .wrap{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
+footer a{color:#d7dbd8}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:500;z-index:100;transition:.25s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s} .reveal.in{opacity:1;transform:none}
+#rain{position:fixed;inset:0;pointer-events:none;z-index:140;overflow:hidden}
+
+@media (max-width:1000px){
+  .nav nav{display:none}
+  .hero{padding:44px 0 40px} .hero-in{grid-template-columns:1fr;gap:36px}
+  .stage{min-height:auto} .phone{width:min(290px,100%)} .hero-in>.stage{order:-1;margin-top:26px}
+  .logo{font-size:17px;white-space:nowrap}
+  .hint{right:auto;left:50%;transform:translateX(-50%);top:-14px;max-width:none;white-space:nowrap} .hint:after{display:none}
+  .facts{grid-template-columns:1fr}
+  .sh{grid-template-columns:1fr;gap:14px}
+  .sim{grid-template-columns:1fr} .steps{grid-template-columns:1fr 1fr} .split{grid-template-columns:1fr}
+  .boards{grid-template-columns:1fr} .tok{grid-template-columns:1fr} .roll{grid-template-columns:1fr}
+  .num{font-size:110px;top:20px}
+  footer .wrap{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px} section{padding:56px 0}
+  .steps{grid-template-columns:1fr} .hops{grid-template-columns:1fr 1fr} .grid2{grid-template-columns:1fr}
+  .right .btn.ghost{display:none}
+  th,td{padding:10px 12px} .tot{padding:10px 12px}
+  h1{font-size:40px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script>
+/* ============ SETTINGS ============ */
+window.CONTRACT = "";      /* адрес контракта */
+window.TWITTER  = "";      /* ссылка на X */
+window.BUY_URL  = "";      /* ссылка на покупку — пусто, пока Олег не даст */
+/* ================================== */
+</script>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><i>$</i>Cashtag Money</a>
+    <nav>
+      <a href="#route"><span>01</span>Route</a>
+      <a href="#how"><span>02</span>Pipeline</a>
+      <a href="#boards"><span>03</span>Boards</a>
+      <a href="#token"><span>04</span>$CTAG</a>
+      <a href="#rollout"><span>05</span>Rollout</a>
+    </nav>
+    <div class="right">
+      <button class="snd" id="sndBtn" type="button">SOUND · OFF</button>
+      <a class="btn ghost sm xLink" id="xBtn" href="#" target="_blank" rel="noopener">X</a>
+      <a class="btn cash sm soon" id="buyBtn" href="#">Buy $CTAG</a>
+    </div>
+  </div>
+</header>
+
+<div class="tick" aria-hidden="true"><div class="in" id="tick"></div></div>
+
+<main id="top">
+<section class="hero" style="border-top:0">
+  <div class="wrap hero-in">
+    <div>
+      <div class="k"><b>ROBINHOOD CHAIN · 4663</b> &nbsp;·&nbsp; LAUNCH VIA PONS &nbsp;·&nbsp; PAYOUTS IN PLAIN DOLLARS</div>
+      <h1 style="margin-top:18px">Launch a coin.<br>Fees land on a <em>$cashtag.</em></h1>
+      <p class="lead">Name any $cashtag or @venmo handle when you launch. Every trade against your coin pays a 2% creator fee, and Cashtag Money turns that fee into a plain-dollar deposit on that handle. The person on the other end never touches a wallet, a seed phrase, or a bridge. They just see money arrive.</p>
+      <div class="ctas">
+        <a class="btn" href="#route">Route a payout →</a>
+        <a class="btn ghost xLink" href="#" target="_blank" rel="noopener">Follow on X</a>
+      </div>
+      <div class="chips">
+        <div class="chip" id="caBox">CA <b class="ca-val">posted at launch</b></div>
+        <div class="chip">FEE <b>2.0%</b> per trade</div>
+        <div class="chip">SPLIT <b>80 / 20</b> handle / burn</div>
+        <div class="chip">MIN PAYOUT <b>$5.00</b></div>
+      </div>
+      <div class="facts">
+        <div><h3>If you launch</h3><p>Pick a handle, launch on Pons, walk away. The handle gets paid on every trade, whether or not you ever open the site again.</p></div>
+        <div><h3>If you receive</h3><p>You do not need to know what Robinhood Chain is. Confirm a six-letter memo once, and every payout after that is automatic.</p></div>
+        <div><h3>If you hold $CTAG</h3><p>One fifth of every fee on every coin buys $CTAG on the open market and burns it. More coins, more burns, fewer tokens.</p></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="hint">Tap <b>Send</b> — it pays. Every tap is a fee landing.</div>
+      <div class="phone">
+        <div class="scr">
+          <div class="top"><span>CASHTAG · LIVE</span><span id="clock">--:--</span></div>
+          <div class="bal"><small>Routed to handles · all time</small><b><i>$</i><span id="balTot">0.00</span></b><div class="sub" id="balSub">simulated feed · until launch</div></div>
+          <div class="feed" id="feed"></div>
+          <div class="pay"><button class="req" type="button" id="reqBtn">Request</button><button class="send" type="button" id="sendBtn">Send</button></div>
+          <div class="bills" id="bills"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="route">
+  <div class="num">01</div>
+  <div class="wrap">
+    <div class="sh reveal"><h2>Route a payout before you launch.</h2><p>Type the handle, pick the coin, drag the volume. The desk shows exactly what lands on that handle, how fast, and what gets burned along the way. Nothing here is a live launch — it is the same math the contracts use.</p></div>
+    <div class="sim">
+      <div class="panel reveal">
+        <div class="f"><label>Pay fees to</label><div class="inp"><span>$</span><input id="handle" maxlength="20" placeholder="latte-lisa" autocomplete="off" spellcheck="false"></div></div>
+        <div class="f"><label>Handle type</label><div class="seg" id="htype"><button class="on" data-v="cash">$cashtag</button><button data-v="venmo">@venmo</button><button data-v="link">payment link</button></div></div>
+        <div class="f"><label>Coin</label><div class="inp"><span>$</span><input id="ticker" maxlength="8" placeholder="BREW" autocomplete="off" spellcheck="false" style="text-transform:uppercase"></div></div>
+        <div class="f"><label>Expected daily volume</label><input class="rng" type="range" id="vol" min="0" max="100" value="38"><div class="rv"><span>$500</span><b id="volV">$25,000 / day</b><span>$2,000,000</span></div></div>
+        <div class="f"><label>Fee split</label><div class="seg" id="splitSeg"><button class="on" data-v="80">80% handle · 20% burn</button><button data-v="90">90% · 10%</button><button data-v="50">50% · 50%</button></div></div>
+        <button class="btn cash" id="genBtn" type="button" style="width:100%;justify-content:center;padding:14px">Generate launch card</button>
+        <div class="status" id="status">Ready. Waiting for a handle.</div>
+        <div class="notif"><div class="k" style="margin-bottom:10px">WHAT THE HANDLE SEES</div>
+          <div class="nf"><i>$</i><div><b id="nfT">Cash App · now</b><span id="nfB">You received $12.40 from Cashtag Money · note: $BREW</span></div></div>
+          <p>No link to click, nothing to install, no token to figure out. A deposit with the coin ticker in the note, and the next one whenever the vault crosses $5.00 again.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="grid2">
+          <div class="card cash"><small>To the handle · per day</small><b id="oHandle">$400<i>USD</i></b><p>Arrives as ordinary money. No token in the inbox, no conversion to explain.</p></div>
+          <div class="card"><small>Burned · per day</small><b id="oBurn">$100<i>of $CTAG</i></b><p>Bought on the open market and sent to the dead address, every payout cycle.</p></div>
+          <div class="card"><small>First payout</small><b id="oEta">~18<i>min</i></b><p>Payouts fire the moment the vault crosses $5.00. Faster coins pay faster.</p></div>
+          <div class="card"><small>In 30 days</small><b id="o30">$12,000</b><p>At this volume. Volume is the only variable; the split never moves after launch.</p></div>
+        </div>
+        <div class="route">
+          <div class="k">ROUTE · <b id="rName">$BREW → $latte-lisa</b></div>
+          <div class="hops" id="hops">
+            <div class="dot" id="dot"></div>
+            <div class="hop lit"><small>1 · Trade</small><b>Pons · Robinhood Chain</b><span>2% fee → vault</span></div>
+            <div class="hop"><small>2 · Sweep</small><b>USDG vault</b><span>≥ $5.00 triggers</span></div>
+            <div class="hop"><small>3 · Bridge</small><b>USDC on Base</b><span>Across · ~90s</span></div>
+            <div class="hop"><small>4 · Payout</small><b id="hopTo">$latte-lisa</b><span>plain dollars</span></div>
+          </div>
+        </div>
+        <div class="lcard" id="lcard" style="margin-top:14px">
+          <div class="k">LAUNCH CARD · PREVIEW</div>
+          <div class="tk" id="lcTk">$BREW</div>
+          <div class="to" id="lcTo">pays → $latte-lisa · 80% of every fee</div>
+          <div class="foot"><div><small>MEMO CODE</small><b id="lcMemo">------</b><small style="display:block;margin-top:6px">Recipient confirms this once on first $0.01</small></div><div class="qr" id="qr"></div></div>
+        </div>
+        <div class="warnb" id="warn" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="num">02</div>
+  <div class="wrap">
+    <div class="sh reveal"><h2>Four hops. None of them need the recipient.</h2><p>The launcher names the handle. The trader pays the fee. The pipeline does the rest, and the handle owner only shows up once, to confirm a memo.</p></div>
+    <div class="steps reveal">
+      <div class="step"><div class="n">01 · LAUNCH</div><h3>Name a handle at launch</h3><p>Launch on Pons like any other coin, but with one extra field: the $cashtag, @venmo or payment link that should receive the fees. It is written into the coin and cannot be edited afterwards, not even by you.</p></div>
+      <div class="step"><div class="n">02 · COLLECT</div><h3>Fees pile up in USDG</h3><p>Every buy and sell pays 2% into a vault that belongs to the coin, not to a person. The vault is a plain contract on Robinhood Chain, readable by anyone, drainable by no one.</p></div>
+      <div class="step"><div class="n">03 · SWEEP</div><h3>Vault crosses $5, sweep fires</h3><p>The USDG bridges to USDC on Base through Across. From there the payout rail buys dollars and sends them to the handle, with the coin ticker in the note. Roughly two minutes end to end.</p></div>
+      <div class="step"><div class="n">04 · BURN</div><h3>The rest buys and burns $CTAG</h3><p>Whatever is not sent to the handle is spent buying $CTAG from the open market and sent to the dead address in the same transaction. There is no treasury that holds it in between.</p></div>
+    </div>
+    <div class="split reveal">
+      <div>
+        <div class="k" style="margin-bottom:12px">DEFAULT SPLIT OF EVERY FEE</div>
+        <div class="bar"><i class="a"></i><i class="b"></i></div>
+        <div class="legend"><span><i style="background:var(--cash)"></i>80% to the handle</span><span><i style="background:var(--ink)"></i>20% buys &amp; burns $CTAG</span></div>
+        <p style="margin:14px 0 0;font-size:14px;color:var(--ink2)">Launchers can push the handle's share up to 90% or down to 50%. The burn side is always what is left. There is no third slice for the protocol.</p>
+      </div>
+      <div class="claim"><b>How a handle claims.</b> The first sweep sends <code>$0.01</code> to the handle with a six-letter memo. Whoever controls the handle types that memo here once, and every payout after that is automatic. Until the memo is confirmed, funds wait in the vault. After 90 days unconfirmed, the waiting balance is burned as $CTAG instead, so nothing sits idle.</div>
+    </div>
+  </div>
+</section>
+
+<section id="boards">
+  <div class="num">03</div>
+  <div class="wrap">
+    <div class="sh reveal"><h2>Who is getting paid.</h2><p>Two boards, updated with every sweep. Handles on the left, the coins feeding them on the right. Click a coin to load its route into the desk above.</p></div>
+    <div class="boards reveal">
+      <div class="board"><div class="hd"><h3>Top handles</h3><div class="k"><b>SIMULATED</b> · UNTIL LAUNCH</div></div>
+        <table><thead><tr><th>Handle</th><th>Fed by</th><th class="r">Received</th></tr></thead><tbody id="tbH"></tbody></table>
+        <div class="tot">Routed to handles, all time · <b id="totH">$0</b></div>
+      </div>
+      <div class="board"><div class="hd"><h3>Top coins</h3><div class="k"><b>SIMULATED</b> · UNTIL LAUNCH</div></div>
+        <table><thead><tr><th>Coin</th><th>Pays</th><th class="r">24h fees</th></tr></thead><tbody id="tbC"></tbody></table>
+        <div class="tot">$CTAG burned by these coins · <b id="totB">0</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="token">
+  <div class="num">04</div>
+  <div class="wrap">
+    <div class="sh reveal"><h2>$CTAG is what the burn side buys.</h2><p>It is not a payout token and it is never sent to a handle. It is the thing every coin on the platform is quietly buying back on the open market, one sweep at a time.</p></div>
+    <div class="tok reveal">
+      <div class="burn">
+        <div class="k">BURNED SO FAR · <b style="color:var(--cash)">SIMULATED</b></div>
+        <div class="big" id="burnBig">0</div>
+        <div class="sub">$CTAG · sent to 0x000…dEaD · counter runs with the feed</div>
+        <ul>
+          <li><b>Buy pressure</b><span>Every sweep on every coin ends with a market buy of $CTAG. The more handles get paid, the more $CTAG leaves circulation.</span></li>
+          <li><b>No treasury</b><span>Nothing is parked. The burn happens inside the payout transaction, so there is no wallet to watch and no unlock to fear.</span></li>
+          <li><b>No emissions</b><span>Fixed supply at launch. The platform cannot mint more to pay anyone, including itself.</span></li>
+          <li><b>Hold to launch</b><span>Launching a coin with a custom split above 80% requires holding 250,000 $CTAG at launch time. The default split is free.</span></li>
+        </ul>
+      </div>
+      <div class="params">
+        <div class="rowp"><span>Chain</span><span>Robinhood Chain · <b>4663</b></span></div>
+        <div class="rowp"><span>Launchpad</span><span>Pons</span></div>
+        <div class="rowp"><span>Fee vault currency</span><span>USDG</span></div>
+        <div class="rowp"><span>Payout rail</span><span>USDC on Base → <b>plain dollars</b></span></div>
+        <div class="rowp"><span>Creator fee</span><span><b>2.0%</b> per trade</span></div>
+        <div class="rowp"><span>Default split</span><span><b>80%</b> handle · 20% burn</span></div>
+        <div class="rowp"><span>Sweep threshold</span><span>$5.00</span></div>
+        <div class="rowp"><span>Unclaimed timeout</span><span>90 days → burned</span></div>
+        <div class="rowp"><span>Supply</span><span>1,000,000,000 · fixed</span></div>
+        <div class="rowp"><span>Contract</span><span class="ca-val">posted at launch</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rollout">
+  <div class="num">05</div>
+  <div class="wrap">
+    <div class="sh reveal"><h2>Rollout.</h2><p>Three phases. The boards above go from simulated to live between the first two.</p></div>
+    <div class="roll reveal">
+      <div class="ph now"><div class="k"><b>NOW</b></div><ul><li>$CTAG live on Robinhood Chain via Pons.</li><li>Desk open: route any handle, generate a launch card, share it.</li><li>Memo-claim flow finalised for $cashtag and @venmo handles.</li></ul></div>
+      <div class="ph"><div class="k">AT LAUNCH</div><ul><li>Launch form opens: name a handle, deploy on Pons in one step.</li><li>First sweeps fire. Boards switch from simulated to onchain data.</li><li>Payment links added as a third handle type.</li></ul></div>
+      <div class="ph"><div class="k">AFTER</div><ul><li>Split-to-many: one coin, up to five handles, weighted.</li><li>Recurring handles: a coffee shop's handle can be reused by any coin without a new memo.</li><li>Public burn ledger with per-coin attribution.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <h2>The trade is onchain.<br>The money is <em>just money.</em></h2>
+    <p>Launch a coin for a barista, a shelter, a coach, a skate park, your cousin. They will not know what a vault is, and they will not need to.</p>
+    <div class="ctas" style="justify-content:center"><a class="btn cash" href="#route">Route a payout →</a><a class="btn ghost xLink" href="#" target="_blank" rel="noopener" style="background:transparent;color:#fff;border-color:#3a443e">Follow on X</a></div>
+  </div>
+</div>
+<footer><div class="wrap">
+  <div>CASHTAG MONEY · $CTAG · ROBINHOOD CHAIN 4663<br>INDEPENDENT FROM BLOCK, INC. (CASH APP), PAYPAL (VENMO), ROBINHOOD MARKETS, INC. AND PONS. HANDLES AND FIGURES ON THIS PAGE ARE SIMULATED UNTIL THE FIRST ONCHAIN SWEEP. PAYOUTS DEPEND ON TRADING VOLUME.</div>
+  <div><a class="xLink" href="#" target="_blank" rel="noopener">X</a> &nbsp;·&nbsp; <a href="#route">Desk</a> &nbsp;·&nbsp; <a href="#top">Top</a></div>
+</div></footer>
+</main>
+<div id="rain"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- settings wiring ---------- */
+var CA=(window.CONTRACT||"").trim(), TW=(window.TWITTER||"").trim(), BUY=(window.BUY_URL||"").trim();
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('on')},1800);}
+if(CA){
+  document.querySelectorAll('.ca-val').forEach(function(e){e.textContent=CA.slice(0,6)+'…'+CA.slice(-4);});
+  document.getElementById('caBox').addEventListener('click',function(){navigator.clipboard.writeText(CA).then(function(){toast('Contract copied');});});
+}else{document.getElementById('caBox').addEventListener('click',function(){toast('Contract is posted at launch');});}
+if(TW){document.querySelectorAll('#xBtn,.xLink').forEach(function(a){a.href=TW;});}
+else{document.querySelectorAll('#xBtn,.xLink').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();toast('X link goes live with the launch');});});}
+var buy=document.getElementById('buyBtn');
+if(BUY){buy.href=BUY;buy.target='_blank';buy.rel='noopener';buy.classList.remove('soon');}
+else{buy.addEventListener('click',function(e){e.preventDefault();toast('Buy link is posted at launch');});}
+
+/* ---------- sound ---------- */
+var sfxOn=false, AC=null;
+try{sfxOn=localStorage.getItem('ctag_snd')==='1';}catch(e){}
+function ac(){try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();}if(AC.state==='suspended')AC.resume();return AC;}catch(e){return null;}}
+function tone(f1,f2,dur,type,g){
+  if(!sfxOn)return;var c=ac();if(!c)return;
+  var o=c.createOscillator(),gg=c.createGain(),t=c.currentTime;
+  o.type=type||'sine';o.frequency.setValueAtTime(f1,t);
+  if(f2&&f2!==f1)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  gg.gain.setValueAtTime(.0001,t);gg.gain.exponentialRampToValueAtTime(g||.05,t+.012);gg.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(gg);gg.connect(c.destination);o.start(t);o.stop(t+dur+.05);
+}
+function sfxPay(){tone(1320,1760,.09,'sine',.05);setTimeout(function(){tone(1760,2200,.14,'sine',.045);},70);}
+function sfxTick(){tone(900,700,.05,'square',.012);}
+function sfxCard(){tone(520,780,.12,'triangle',.05);setTimeout(function(){tone(780,1040,.16,'triangle',.05);},110);}
+var sndBtn=document.getElementById('sndBtn');
+function paintSnd(){sndBtn.textContent='SOUND · '+(sfxOn?'ON':'OFF');sndBtn.classList.toggle('on',sfxOn);}
+paintSnd();
+sndBtn.addEventListener('click',function(){sfxOn=!sfxOn;try{localStorage.setItem('ctag_snd',sfxOn?'1':'0');}catch(e){}paintSnd();if(sfxOn){ac();sfxPay();}});
+
+/* ---------- data ---------- */
+var HANDLES=[
+  {h:'latte-lisa',c:'BREW',col:'#ffd166',note:'espresso cart, 6th & Pine'},
+  {h:'riverside-shelter',c:'PAWS',col:'#8ecae6',note:'dog rescue, 40 kennels'},
+  {h:'coach-devon',c:'REPS',col:'#f4a261',note:'boxing gym, tuesdays free'},
+  {h:'skatepark-dan',c:'GRIND',col:'#c8b6ff',note:'concrete fund, phase 2'},
+  {h:'tacotruck-mia',c:'SALSA',col:'#ff8fab',note:'two trucks, one salsa'},
+  {h:'pixel-nina',c:'PIXEL',col:'#bde0fe',note:'draws your cat, badly'},
+  {h:'laundro-king',c:'SPIN',col:'#caffbf',note:'24h laundromat, free wifi'},
+  {h:'bike-collective',c:'CHAIN',col:'#ffc8dd',note:'fixes bikes, takes tips'}
+];
+HANDLES.forEach(function(x,i){x.vol=[26000,19000,14000,11000,9500,7000,5200,3900][i];x.rec=[4812.4,3390.15,2544.9,1988.02,1702.33,1210.8,904.5,611.26][i];x.fees=x.rec/0.8;});
+var PRICE=0.0042, TOTAL=HANDLES.reduce(function(a,x){return a+x.rec;},0), BURNED=HANDLES.reduce(function(a,x){return a+x.fees*0.2;},0)/PRICE; /* reference price of $CTAG for burn count */
+
+/* ---------- ticker ---------- */
+var TK=['<b>$latte-lisa</b> received $12.40 · from $BREW','sweep threshold <b>$5.00</b>','<b>80%</b> to the handle · 20% buys &amp; burns $CTAG','recipient never touches a wallet','memo confirmed once · payouts forever','<b>$riverside-shelter</b> received $31.08 · from $PAWS','unclaimed 90 days → burned','robinhood chain · <b>4663</b> · launch via pons','the note on the deposit is the coin ticker','<b>$coach-devon</b> received $8.15 · from $REPS'];
+document.getElementById('tick').innerHTML=(TK.concat(TK)).map(function(s){return '<span>'+s+'</span>';}).join('');
+
+/* ---------- phone feed ---------- */
+var feed=document.getElementById('feed'), balTot=document.getElementById('balTot'), bills=document.getElementById('bills');
+function fmt(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmt0(n){return Math.round(n).toLocaleString('en-US');}
+function ini(h){return h.replace(/[^a-z]/gi,'').slice(0,1).toUpperCase();}
+function addRow(x,amt){
+  var r=document.createElement('div');r.className='row';
+  r.innerHTML='<div class="av" style="background:'+x.col+'">'+ini(x.h)+'</div><div class="tx"><b>$'+x.h+'</b><span>from $'+x.c+' fees · '+nowStr()+'</span></div><div class="amt">+$'+fmt(amt)+'</div>';
+  feed.insertBefore(r,feed.firstChild);
+  while(feed.children.length>7)feed.removeChild(feed.lastChild);
+}
+function nowStr(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function pay(x,amt,fromTap){
+  x.rec+=amt;x.fees+=amt/0.8;TOTAL+=amt;BURNED+=(amt/0.8*0.2)/PRICE;
+  balTot.textContent=fmt(TOTAL);
+  addRow(x,amt);
+  paintBoards();
+  if(fromTap)sfxPay();else sfxTick();
+}
+function randHandle(){var w=Math.random()*HANDLES.length;var i=Math.floor(Math.pow(Math.random(),1.6)*HANDLES.length);return HANDLES[Math.min(i,HANDLES.length-1)];}
+function autoPay(){var x=randHandle();var amt=5+Math.random()*Math.min(60,x.vol/500);pay(x,Math.round(amt*100)/100,false);}
+for(var i=0;i<5;i++)autoPay();
+setInterval(autoPay,2600);
+setInterval(function(){document.getElementById('clock').textContent=nowStr();},1000);document.getElementById('clock').textContent=nowStr();
+
+function spray(n){
+  var W=bills.clientWidth||300,H=bills.clientHeight||600;
+  for(var i=0;i<n;i++)(function(){
+    var b=document.createElement('div');b.className='bill';b.textContent='$';
+    var x=W*0.72,y=H-46;b.style.left=x+'px';b.style.top=y+'px';bills.appendChild(b);
+    var vx=(Math.random()-.5)*9,vy=-6-Math.random()*7,px=0,py=0,k=0,rot=(Math.random()-.5)*30;
+    (function st(){k++;vy+=.38;px+=vx;py+=vy;b.style.transform='translate('+px+'px,'+py+'px) rotate('+(k*rot)+'deg)';if(k>75)b.style.opacity=String(1-(k-75)/25);if(k>100||py>H){b.remove();return;}requestAnimationFrame(st);})();
+  })();
+}
+var taps=0;
+document.getElementById('sendBtn').addEventListener('click',function(){
+  taps++;var x=randHandle();var amt=Math.round((5+Math.random()*40)*100)/100;
+  pay(x,amt,true);spray(10+Math.floor(Math.random()*6));
+  if(taps%12===0){rain();toast('Twelve taps. Twelve handles paid. Keep going.');}
+});
+document.getElementById('reqBtn').addEventListener('click',function(){sfxTick();toast('Requests go the other way. This app only sends.');});
+function rain(){
+  var r=document.getElementById('rain'),W=innerWidth;
+  for(var i=0;i<60;i++)(function(i){setTimeout(function(){
+    var b=document.createElement('div');b.className='bill';b.textContent='$';b.style.left=(Math.random()*W)+'px';b.style.top='-30px';b.style.position='absolute';r.appendChild(b);
+    var vx=(Math.random()-.5)*3,vy=2+Math.random()*3,px=0,py=0,k=0,rot=(Math.random()-.5)*8;
+    (function st(){k++;vy+=.12;px+=vx*Math.sin(k/9);py+=vy;b.style.transform='translate('+px+'px,'+py+'px) rotate('+(k*rot)+'deg)';if(py>innerHeight+40){b.remove();return;}requestAnimationFrame(st);})();
+  },i*35);})(i);
+}
+
+/* ---------- boards ---------- */
+function paintBoards(){
+  var hs=HANDLES.slice().sort(function(a,b){return b.rec-a.rec;});
+  document.getElementById('tbH').innerHTML=hs.map(function(x,i){return '<tr data-c="'+x.c+'"><td><div class="h"><i style="background:'+x.col+'">'+ini(x.h)+'</i><div>$'+x.h+'<small>'+x.note+'</small></div></div></td><td><span class="pill">$'+x.c+'</span></td><td class="r">$'+fmt(x.rec)+'</td></tr>';}).join('');
+  var cs=HANDLES.slice().sort(function(a,b){return b.fees-a.fees;});
+  document.getElementById('tbC').innerHTML=cs.map(function(x,i){return '<tr data-c="'+x.c+'"><td><div class="h"><i style="background:var(--ink);color:#fff">'+x.c.slice(0,1)+'</i><div>$'+x.c+'<small>~$'+fmt0(x.vol)+' / day</small></div></div></td><td><span class="pill g">$'+x.h+'</span></td><td class="r">$'+fmt(x.fees)+'</td></tr>';}).join('');
+  document.getElementById('totH').textContent='$'+fmt(TOTAL);
+  document.getElementById('totB').textContent=fmt0(BURNED);
+  document.getElementById('burnBig').textContent=fmt0(BURNED);
+}
+document.addEventListener('click',function(e){
+  var tr=e.target.closest&&e.target.closest('tr[data-c]');if(!tr)return;
+  var x=HANDLES.filter(function(h){return h.c===tr.getAttribute('data-c');})[0];if(!x)return;
+  document.getElementById('handle').value=x.h;document.getElementById('ticker').value=x.c;
+  var v=Math.round(Math.log(x.vol/500)/Math.log(4000)*100);document.getElementById('vol').value=Math.max(0,Math.min(100,v));
+  calc();sfxTick();document.getElementById('route').scrollIntoView({behavior:'smooth'});toast('$'+x.c+' loaded into the desk');
+});
+
+/* ---------- simulator ---------- */
+var hIn=document.getElementById('handle'),tIn=document.getElementById('ticker'),vol=document.getElementById('vol');
+var htype='cash',split=80;
+function pre(){return htype==='venmo'?'@':htype==='link'?'':'$';}
+function volUSD(){return 500*Math.pow(4000,vol.value/100);}
+function clean(s){return s.toLowerCase().replace(/[^a-z0-9\-\.]/g,'').replace(/^[\$@]+/,'');}
+function calc(){
+  var h=clean(hIn.value)||'latte-lisa', t=(tIn.value||'BREW').toUpperCase().replace(/[^A-Z0-9]/g,''), v=volUSD();
+  var fee=v*0.02, toH=fee*split/100, burn=fee-toH;
+  document.getElementById('volV').textContent='$'+fmt0(v)+' / day';
+  document.getElementById('oHandle').innerHTML='$'+fmt0(toH)+'<i>USD</i>';
+  document.getElementById('oBurn').innerHTML='$'+fmt0(burn)+'<i>of $CTAG</i>';
+  var mins=5/(toH/1440);var eta=mins<1?'<1':mins<60?'~'+Math.round(mins):mins<1440?'~'+(mins/60).toFixed(1):'~'+Math.round(mins/1440);
+  var unit=mins<60?'min':mins<1440?'hrs':'days';
+  document.getElementById('oEta').innerHTML=eta+'<i>'+unit+'</i>';
+  document.getElementById('o30').textContent='$'+fmt0(toH*30);
+  var disp=(htype==='link'?h+'.link':pre()+h);
+  document.getElementById('rName').textContent='$'+t+' → '+disp;document.getElementById('hopTo').textContent=disp;
+  document.getElementById('lcTk').textContent='$'+t;document.getElementById('lcTo').textContent='pays → '+disp+' · '+split+'% of every fee';
+  document.querySelector('#splitSeg').querySelectorAll('button').forEach(function(b){b.classList.toggle('on',+b.dataset.v===split);});
+  var w=document.getElementById('warn');
+  if(split>80){w.style.display='block';w.textContent='A handle share above 80% needs 250,000 $CTAG held by the launcher at launch time. The default 80/20 split is free.';}
+  else if(split<80){w.style.display='block';w.textContent='Below 80% the extra share is not a fee for anyone. It simply buys and burns more $CTAG.';}
+  else w.style.display='none';
+  document.getElementById('nfT').textContent=(htype==='venmo'?'Venmo':htype==='link'?'Payment link':'Cash App')+' · now';
+  document.getElementById('nfB').textContent='You received $'+fmt(Math.max(5,toH/24))+' from Cashtag Money · note: $'+t;
+  document.getElementById('status').innerHTML=hIn.value?'Route valid. <b>'+disp+'</b> will be paid every time the vault crosses $5.00.':'Ready. Waiting for a handle.';
+}
+['input','change'].forEach(function(ev){hIn.addEventListener(ev,calc);tIn.addEventListener(ev,calc);vol.addEventListener(ev,calc);});
+vol.addEventListener('input',function(){if(Math.random()<.25)sfxTick();});
+document.getElementById('htype').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;htype=b.dataset.v;this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});hIn.placeholder=htype==='venmo'?'Latte-Lisa':htype==='link'?'lisa-coffee':'latte-lisa';document.querySelector('#handle').previousElementSibling.textContent=pre()||'🔗';calc();sfxTick();});
+document.getElementById('splitSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;split=+b.dataset.v;calc();sfxTick();});
+/* animated dot */
+var hopI=0,hops=document.querySelectorAll('.hop');
+function moveDot(){var d=document.getElementById('dot');var el=hops[hopI];d.style.left=(el.offsetLeft+el.offsetWidth/2-5)+'px';hops.forEach(function(h,i){h.classList.toggle('lit',i===hopI);});hopI=(hopI+1)%hops.length;}
+moveDot();setInterval(moveDot,1400);addEventListener('resize',function(){hopI=(hopI+hops.length-1)%hops.length;moveDot();});
+/* launch card */
+function memo(){var a='ABCDEFGHJKLMNPQRSTUVWXYZ',s='';for(var i=0;i<6;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
+function qr(seed){var q=document.getElementById('qr');var h=0;for(var i=0;i<seed.length;i++)h=(h*31+seed.charCodeAt(i))>>>0;var out='';for(var k=0;k<64;k++){h=(h*1103515245+12345)>>>0;out+='<i class="'+(((h>>>16)&1)?'b':'')+'"></i>';}q.innerHTML=out;}
+qr('BREW');
+document.getElementById('genBtn').addEventListener('click',function(){
+  if(!hIn.value){toast('Type a handle first');hIn.focus();sfxTick();return;}
+  calc();var m=memo();document.getElementById('lcMemo').textContent=m;qr(hIn.value+tIn.value+m);
+  var lc=document.getElementById('lcard');lc.style.transition='none';lc.style.transform='scale(.97)';requestAnimationFrame(function(){lc.style.transition='transform .35s cubic-bezier(.2,.9,.3,1.3)';lc.style.transform='none';});
+  sfxCard();
+  document.getElementById('status').innerHTML='Launch card ready. Memo <b>'+m+'</b> goes out with the first $0.01. Share the card, launch on Pons, done.';
+  var n=(parseInt(localStorage.getItem('ctag_cards')||'0',10)+1);try{localStorage.setItem('ctag_cards',String(n));}catch(e){}
+  if(n%5===0){rain();toast('Five launch cards. The barista is going to be confused and happy.');}
+});
+calc();
+
+/* ---------- reveal & nav ---------- */
+var rv=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});rv.forEach(function(e){io.observe(e);});}
+setTimeout(function(){rv.forEach(function(e){e.classList.add('in');});},2600);
+var navA=document.querySelectorAll('.nav nav a'),secs=['route','how','boards','token','rollout'].map(function(id){return document.getElementById(id);});
+function onScroll(){var y=scrollY+120,cur=-1;secs.forEach(function(s,i){if(s.offsetTop<=y)cur=i;});navA.forEach(function(a,i){a.classList.toggle('on',i===cur);});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>
