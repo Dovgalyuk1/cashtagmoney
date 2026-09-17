@@ -32,7 +32,7 @@ h1,h2,h3{font-family:var(--d);margin:0;letter-spacing:-.02em;line-height:1.02}
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:18px;height:66px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--d);font-weight:800;font-size:19px;letter-spacing:-.03em}
-.logo i{width:30px;height:30px;border-radius:9px;background:var(--cash);display:grid;place-items:center;font-style:normal;color:var(--ink);font-weight:800;font-size:19px}
+.logo img{width:32px;height:32px;border-radius:9px}
 .nav nav{display:flex;gap:4px;margin-left:8px}
 .nav nav a{padding:7px 10px;border-radius:8px;font-size:13.5px;color:var(--ink2);font-weight:500}
 .nav nav a:hover,.nav nav a.on{background:var(--wash);color:var(--ink)}
@@ -148,7 +148,7 @@ section>.wrap{position:relative;z-index:1}
 .status b{color:var(--cash2);font-weight:600}
 .notif{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
 .nf{display:flex;gap:12px;align-items:center;background:var(--wash);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
-.nf i{width:38px;height:38px;border-radius:11px;background:var(--cash);display:grid;place-items:center;font-style:normal;font-family:var(--d);font-weight:800;font-size:20px;flex:none}
+
 .nf b{display:block;font-size:12px;color:var(--mute);font-weight:500;font-family:var(--m)} .nf span{display:block;font-size:14px;font-weight:600;line-height:1.3}
 .notif p{margin:12px 0 0;font-size:13.5px;color:var(--ink2)}
 .warnb{margin-top:10px;border-left:3px solid var(--warn);padding:8px 12px;background:#fff6ee;border-radius:0 10px 10px 0;font-size:13px;color:#7a3d0e}
@@ -250,7 +250,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#top"><i>$</i>Cashtag Money</a>
+    <a class="logo" href="#top"><img src="assets/logo-96.png" alt="Cashtag Money" width="32" height="32">Cashtag Money</a>
     <nav>
       <a href="#route"><span>01</span>Route</a>
       <a href="#how"><span>02</span>Pipeline</a>
@@ -320,7 +320,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
         <button class="btn cash" id="genBtn" type="button" style="width:100%;justify-content:center;padding:14px">Generate launch card</button>
         <div class="status" id="status">Ready. Waiting for a handle.</div>
         <div class="notif"><div class="k" style="margin-bottom:10px">WHAT THE HANDLE SEES</div>
-          <div class="nf"><i>$</i><div><b id="nfT">Cash App · now</b><span id="nfB">You received $12.40 from Cashtag Money · note: $BREW</span></div></div>
+          <div class="nf"><img src="assets/logo-96.png" alt="" width="38" height="38" style="border-radius:11px;flex:none"><div><b id="nfT">Cash App · now</b><span id="nfB">You received $12.40 from Cashtag Money · note: $BREW</span></div></div>
           <p>No link to click, nothing to install, no token to figure out. A deposit with the coin ticker in the note, and the next one whenever the vault crosses $5.00 again.</p>
         </div>
       </div>
