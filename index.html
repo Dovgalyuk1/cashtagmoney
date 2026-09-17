@@ -6,7 +6,7 @@
 <title>Cashtag Money — launch a coin, fees land on a $cashtag</title>
 <meta name="description" content="Launch a coin on Robinhood Chain and route its creator fees to any $cashtag or @venmo handle. Public trading, plain-dollar payouts, no wallet needed on the receiving end.">
 <meta property="og:title" content="Cashtag Money — launch a coin, fees land on a $cashtag">
-<meta property="og:description" content="Route creator fees from any coin on Robinhood Chain to a $cashtag. 80% to the handle, 20% buys and burns $CTAG.">
+<meta property="og:description" content="Route creator fees from any coin on Robinhood Chain to a $cashtag. 80% to the handle, 20% buys and burns $CASHTAG.">
 <meta property="og:image" content="assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.png">
@@ -255,13 +255,13 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
       <a href="#route"><span>01</span>Route</a>
       <a href="#how"><span>02</span>Pipeline</a>
       <a href="#boards"><span>03</span>Boards</a>
-      <a href="#token"><span>04</span>$CTAG</a>
+      <a href="#token"><span>04</span>$CASHTAG</a>
       <a href="#rollout"><span>05</span>Rollout</a>
     </nav>
     <div class="right">
       <button class="snd" id="sndBtn" type="button">SOUND · OFF</button>
       <a class="btn ghost sm xLink" id="xBtn" href="#" target="_blank" rel="noopener">X</a>
-      <a class="btn cash sm soon" id="buyBtn" href="#">Buy $CTAG</a>
+      <a class="btn cash sm soon" id="buyBtn" href="#">Buy $CASHTAG</a>
     </div>
   </div>
 </header>
@@ -288,7 +288,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
       <div class="facts">
         <div><h3>If you launch</h3><p>Pick a handle, launch on Pons, walk away. The handle gets paid on every trade, whether or not you ever open the site again.</p></div>
         <div><h3>If you receive</h3><p>You do not need to know what Robinhood Chain is. Confirm a six-letter memo once, and every payout after that is automatic.</p></div>
-        <div><h3>If you hold $CTAG</h3><p>One fifth of every fee on every coin buys $CTAG on the open market and burns it. More coins, more burns, fewer tokens.</p></div>
+        <div><h3>If you hold $CASHTAG</h3><p>One fifth of every fee on every coin buys $CASHTAG on the open market and burns it. More coins, more burns, fewer tokens.</p></div>
       </div>
     </div>
     <div class="stage">
@@ -327,7 +327,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
       <div class="reveal">
         <div class="grid2">
           <div class="card cash"><small>To the handle · per day</small><b id="oHandle">$400<i>USD</i></b><p>Arrives as ordinary money. No token in the inbox, no conversion to explain.</p></div>
-          <div class="card"><small>Burned · per day</small><b id="oBurn">$100<i>of $CTAG</i></b><p>Bought on the open market and sent to the dead address, every payout cycle.</p></div>
+          <div class="card"><small>Burned · per day</small><b id="oBurn">$100<i>of $CASHTAG</i></b><p>Bought on the open market and sent to the dead address, every payout cycle.</p></div>
           <div class="card"><small>First payout</small><b id="oEta">~18<i>min</i></b><p>Payouts fire the moment the vault crosses $5.00. Faster coins pay faster.</p></div>
           <div class="card"><small>In 30 days</small><b id="o30">$12,000</b><p>At this volume. Volume is the only variable; the split never moves after launch.</p></div>
         </div>
@@ -361,16 +361,16 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
       <div class="step"><div class="n">01 · LAUNCH</div><h3>Name a handle at launch</h3><p>Launch on Pons like any other coin, but with one extra field: the $cashtag, @venmo or payment link that should receive the fees. It is written into the coin and cannot be edited afterwards, not even by you.</p></div>
       <div class="step"><div class="n">02 · COLLECT</div><h3>Fees pile up in USDG</h3><p>Every buy and sell pays 2% into a vault that belongs to the coin, not to a person. The vault is a plain contract on Robinhood Chain, readable by anyone, drainable by no one.</p></div>
       <div class="step"><div class="n">03 · SWEEP</div><h3>Vault crosses $5, sweep fires</h3><p>The USDG bridges to USDC on Base through Across. From there the payout rail buys dollars and sends them to the handle, with the coin ticker in the note. Roughly two minutes end to end.</p></div>
-      <div class="step"><div class="n">04 · BURN</div><h3>The rest buys and burns $CTAG</h3><p>Whatever is not sent to the handle is spent buying $CTAG from the open market and sent to the dead address in the same transaction. There is no treasury that holds it in between.</p></div>
+      <div class="step"><div class="n">04 · BURN</div><h3>The rest buys and burns $CASHTAG</h3><p>Whatever is not sent to the handle is spent buying $CASHTAG from the open market and sent to the dead address in the same transaction. There is no treasury that holds it in between.</p></div>
     </div>
     <div class="split reveal">
       <div>
         <div class="k" style="margin-bottom:12px">DEFAULT SPLIT OF EVERY FEE</div>
         <div class="bar"><i class="a"></i><i class="b"></i></div>
-        <div class="legend"><span><i style="background:var(--cash)"></i>80% to the handle</span><span><i style="background:var(--ink)"></i>20% buys &amp; burns $CTAG</span></div>
+        <div class="legend"><span><i style="background:var(--cash)"></i>80% to the handle</span><span><i style="background:var(--ink)"></i>20% buys &amp; burns $CASHTAG</span></div>
         <p style="margin:14px 0 0;font-size:14px;color:var(--ink2)">Launchers can push the handle's share up to 90% or down to 50%. The burn side is always what is left. There is no third slice for the protocol.</p>
       </div>
-      <div class="claim"><b>How a handle claims.</b> The first sweep sends <code>$0.01</code> to the handle with a six-letter memo. Whoever controls the handle types that memo here once, and every payout after that is automatic. Until the memo is confirmed, funds wait in the vault. After 90 days unconfirmed, the waiting balance is burned as $CTAG instead, so nothing sits idle.</div>
+      <div class="claim"><b>How a handle claims.</b> The first sweep sends <code>$0.01</code> to the handle with a six-letter memo. Whoever controls the handle types that memo here once, and every payout after that is automatic. Until the memo is confirmed, funds wait in the vault. After 90 days unconfirmed, the waiting balance is burned as $CASHTAG instead, so nothing sits idle.</div>
     </div>
   </div>
 </section>
@@ -386,7 +386,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
       </div>
       <div class="board"><div class="hd"><h3>Top coins</h3><div class="k"><b>SIMULATED</b> · UNTIL LAUNCH</div></div>
         <table><thead><tr><th>Coin</th><th>Pays</th><th class="r">24h fees</th></tr></thead><tbody id="tbC"></tbody></table>
-        <div class="tot">$CTAG burned by these coins · <b id="totB">0</b></div>
+        <div class="tot">$CASHTAG burned by these coins · <b id="totB">0</b></div>
       </div>
     </div>
   </div>
@@ -395,17 +395,17 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
 <section id="token">
   <div class="num">04</div>
   <div class="wrap">
-    <div class="sh reveal"><h2>$CTAG is what the burn side buys.</h2><p>It is not a payout token and it is never sent to a handle. It is the thing every coin on the platform is quietly buying back on the open market, one sweep at a time.</p></div>
+    <div class="sh reveal"><h2>$CASHTAG is what the burn side buys.</h2><p>It is not a payout token and it is never sent to a handle. It is the thing every coin on the platform is quietly buying back on the open market, one sweep at a time.</p></div>
     <div class="tok reveal">
       <div class="burn">
         <div class="k">BURNED SO FAR · <b style="color:var(--cash)">SIMULATED</b></div>
         <div class="big" id="burnBig">0</div>
-        <div class="sub">$CTAG · sent to 0x000…dEaD · counter runs with the feed</div>
+        <div class="sub">$CASHTAG · sent to 0x000…dEaD · counter runs with the feed</div>
         <ul>
-          <li><b>Buy pressure</b><span>Every sweep on every coin ends with a market buy of $CTAG. The more handles get paid, the more $CTAG leaves circulation.</span></li>
+          <li><b>Buy pressure</b><span>Every sweep on every coin ends with a market buy of $CASHTAG. The more handles get paid, the more $CASHTAG leaves circulation.</span></li>
           <li><b>No treasury</b><span>Nothing is parked. The burn happens inside the payout transaction, so there is no wallet to watch and no unlock to fear.</span></li>
           <li><b>No emissions</b><span>Fixed supply at launch. The platform cannot mint more to pay anyone, including itself.</span></li>
-          <li><b>Hold to launch</b><span>Launching a coin with a custom split above 80% requires holding 250,000 $CTAG at launch time. The default split is free.</span></li>
+          <li><b>Hold to launch</b><span>Launching a coin with a custom split above 80% requires holding 250,000 $CASHTAG at launch time. The default split is free.</span></li>
         </ul>
       </div>
       <div class="params">
@@ -429,7 +429,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
   <div class="wrap">
     <div class="sh reveal"><h2>Rollout.</h2><p>Three phases. The boards above go from simulated to live between the first two.</p></div>
     <div class="roll reveal">
-      <div class="ph now"><div class="k"><b>NOW</b></div><ul><li>$CTAG live on Robinhood Chain via Pons.</li><li>Desk open: route any handle, generate a launch card, share it.</li><li>Memo-claim flow finalised for $cashtag and @venmo handles.</li></ul></div>
+      <div class="ph now"><div class="k"><b>NOW</b></div><ul><li>$CASHTAG live on Robinhood Chain via Pons.</li><li>Desk open: route any handle, generate a launch card, share it.</li><li>Memo-claim flow finalised for $cashtag and @venmo handles.</li></ul></div>
       <div class="ph"><div class="k">AT LAUNCH</div><ul><li>Launch form opens: name a handle, deploy on Pons in one step.</li><li>First sweeps fire. Boards switch from simulated to onchain data.</li><li>Payment links added as a third handle type.</li></ul></div>
       <div class="ph"><div class="k">AFTER</div><ul><li>Split-to-many: one coin, up to five handles, weighted.</li><li>Recurring handles: a coffee shop's handle can be reused by any coin without a new memo.</li><li>Public burn ledger with per-coin attribution.</li></ul></div>
     </div>
@@ -444,7 +444,7 @@ window.BUY_URL  = "";      /* ссылка на покупку — пусто, �
   </div>
 </div>
 <footer><div class="wrap">
-  <div>CASHTAG MONEY · $CTAG · ROBINHOOD CHAIN 4663<br>INDEPENDENT FROM BLOCK, INC. (CASH APP), PAYPAL (VENMO), ROBINHOOD MARKETS, INC. AND PONS. HANDLES AND FIGURES ON THIS PAGE ARE SIMULATED UNTIL THE FIRST ONCHAIN SWEEP. PAYOUTS DEPEND ON TRADING VOLUME.</div>
+  <div>CASHTAG MONEY · $CASHTAG · ROBINHOOD CHAIN 4663<br>INDEPENDENT FROM BLOCK, INC. (CASH APP), PAYPAL (VENMO), ROBINHOOD MARKETS, INC. AND PONS. HANDLES AND FIGURES ON THIS PAGE ARE SIMULATED UNTIL THE FIRST ONCHAIN SWEEP. PAYOUTS DEPEND ON TRADING VOLUME.</div>
   <div><a class="xLink" href="#" target="_blank" rel="noopener">X</a> &nbsp;·&nbsp; <a href="#route">Desk</a> &nbsp;·&nbsp; <a href="#top">Top</a></div>
 </div></footer>
 </main>
@@ -497,10 +497,10 @@ var HANDLES=[
   {h:'bike-collective',c:'CHAIN',col:'#ffc8dd',note:'fixes bikes, takes tips'}
 ];
 HANDLES.forEach(function(x,i){x.vol=[26000,19000,14000,11000,9500,7000,5200,3900][i];x.rec=[4812.4,3390.15,2544.9,1988.02,1702.33,1210.8,904.5,611.26][i];x.fees=x.rec/0.8;});
-var PRICE=0.0042, TOTAL=HANDLES.reduce(function(a,x){return a+x.rec;},0), BURNED=HANDLES.reduce(function(a,x){return a+x.fees*0.2;},0)/PRICE; /* reference price of $CTAG for burn count */
+var PRICE=0.0042, TOTAL=HANDLES.reduce(function(a,x){return a+x.rec;},0), BURNED=HANDLES.reduce(function(a,x){return a+x.fees*0.2;},0)/PRICE; /* reference price of $CASHTAG for burn count */
 
 /* ---------- ticker ---------- */
-var TK=['<b>$latte-lisa</b> received $12.40 · from $BREW','sweep threshold <b>$5.00</b>','<b>80%</b> to the handle · 20% buys &amp; burns $CTAG','recipient never touches a wallet','memo confirmed once · payouts forever','<b>$riverside-shelter</b> received $31.08 · from $PAWS','unclaimed 90 days → burned','robinhood chain · <b>4663</b> · launch via pons','the note on the deposit is the coin ticker','<b>$coach-devon</b> received $8.15 · from $REPS'];
+var TK=['<b>$latte-lisa</b> received $12.40 · from $BREW','sweep threshold <b>$5.00</b>','<b>80%</b> to the handle · 20% buys &amp; burns $CASHTAG','recipient never touches a wallet','memo confirmed once · payouts forever','<b>$riverside-shelter</b> received $31.08 · from $PAWS','unclaimed 90 days → burned','robinhood chain · <b>4663</b> · launch via pons','the note on the deposit is the coin ticker','<b>$coach-devon</b> received $8.15 · from $REPS'];
 document.getElementById('tick').innerHTML=(TK.concat(TK)).map(function(s){return '<span>'+s+'</span>';}).join('');
 
 /* ---------- phone feed ---------- */
@@ -582,7 +582,7 @@ function calc(){
   var fee=v*0.02, toH=fee*split/100, burn=fee-toH;
   document.getElementById('volV').textContent='$'+fmt0(v)+' / day';
   document.getElementById('oHandle').innerHTML='$'+fmt0(toH)+'<i>USD</i>';
-  document.getElementById('oBurn').innerHTML='$'+fmt0(burn)+'<i>of $CTAG</i>';
+  document.getElementById('oBurn').innerHTML='$'+fmt0(burn)+'<i>of $CASHTAG</i>';
   var mins=5/(toH/1440);var eta=mins<1?'<1':mins<60?'~'+Math.round(mins):mins<1440?'~'+(mins/60).toFixed(1):'~'+Math.round(mins/1440);
   var unit=mins<60?'min':mins<1440?'hrs':'days';
   document.getElementById('oEta').innerHTML=eta+'<i>'+unit+'</i>';
@@ -592,8 +592,8 @@ function calc(){
   document.getElementById('lcTk').textContent='$'+t;document.getElementById('lcTo').textContent='pays → '+disp+' · '+split+'% of every fee';
   document.querySelector('#splitSeg').querySelectorAll('button').forEach(function(b){b.classList.toggle('on',+b.dataset.v===split);});
   var w=document.getElementById('warn');
-  if(split>80){w.style.display='block';w.textContent='A handle share above 80% needs 250,000 $CTAG held by the launcher at launch time. The default 80/20 split is free.';}
-  else if(split<80){w.style.display='block';w.textContent='Below 80% the extra share is not a fee for anyone. It simply buys and burns more $CTAG.';}
+  if(split>80){w.style.display='block';w.textContent='A handle share above 80% needs 250,000 $CASHTAG held by the launcher at launch time. The default 80/20 split is free.';}
+  else if(split<80){w.style.display='block';w.textContent='Below 80% the extra share is not a fee for anyone. It simply buys and burns more $CASHTAG.';}
   else w.style.display='none';
   document.getElementById('nfT').textContent=(htype==='venmo'?'Venmo':htype==='link'?'Payment link':'Cash App')+' · now';
   document.getElementById('nfB').textContent='You received $'+fmt(Math.max(5,toH/24))+' from Cashtag Money · note: $'+t;
